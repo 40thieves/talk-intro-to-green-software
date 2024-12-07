@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fira+Mono:wght@400;500;700&family=Hanken+Grotesk:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
+    <title>Intro to Green Software</title>
+    <meta charset="utf-8" />
+    <style>
+      /* @link https://utopia.fyi/type/calculator?c=320,18,1.2,1240,20,1.25,5,2,&s=0.75|0.5|0.25,1.5|2|3|4|6,s-l&g=s,l,xl,12 */
+      :root {
+        --step--2: clamp(0.7813rem, 0.7747rem + 0.0326vw, 0.8rem);
+        --step--1: clamp(0.9375rem, 0.9158rem + 0.1087vw, 1rem);
+        --step-0: clamp(1.125rem, 1.0815rem + 0.2174vw, 1.25rem);
+        --step-1: clamp(1.35rem, 1.2761rem + 0.3696vw, 1.5625rem);
+        --step-2: clamp(1.62rem, 1.5041rem + 0.5793vw, 1.9531rem);
+        --step-3: clamp(1.944rem, 1.771rem + 0.8651vw, 2.4414rem);
+        --step-4: clamp(2.3328rem, 2.0827rem + 1.2504vw, 3.0518rem);
+        --step-5: clamp(2.7994rem, 2.4462rem + 1.7658vw, 3.8147rem);
+        --clr-primary: goldenrod;
+      }
+      body {
+        font-family: "Hanken Grotesk", sans-serif;
+        font-optical-sizing: auto;
+        font-weight: 400;
+        font-weight: normal;
+      }
+      h1,
+      h2,
+      h3,
+      h4 {
+        margin: 0;
+      }
+      h1,
+      .h1 {
+        font-size: var(--step-5);
+      }
+      h2,
+      .h2 {
+        font-size: var(--step-4);
+      }
+      h3,
+      .h3 {
+        font-size: var(--step-3);
+      }
+      h4,
+      .h4 {
+        font-size: var(--step-2);
+      }
+      .remark-slide-content > * + * {
+        margin-block-start: var(--flow-space, 1em);
+      }
+      .remark-code,
+      .remark-inline-code {
+        font-family: "Fira Mono", monospace;
+        font-weight: 400;
+        font-style: normal;
+      }
+      blockquote {
+        margin-inline: 0;
+        padding-inline-start: 1rem;
+        border-inline-start: 0.25rem solid var(--clr-primary);
+      }
+      .img-center {
+        display: flex;
+        justify-content: center;
+      }
+      .img-75 > img {
+        width: 75%;
+      }
+    </style>
+  </head>
+  <body>
+    <textarea id="source">
+
+class: center, middle
+
+# Intro to Green Software
+
+## Ali Smith, December 2024
+
+???
+
+- Hi folks, I'm going to give a brief intro to green software
+- It's a topic I've become quite interested in over the last few months
+- But I'll first say that I am very much still learning and definitely wouldn't call myself an expert!
+
+---
+
+# What is Green Software?
+
+## Definition
+
+> Green software is an emerging discipline at the intersection of climate science, software design, electricity markets,
+hardware, and data center design. Green software is carbon-efficient software, meaning it emits the least carbon possible.
+
+<small>[Green Software Practitioners](https://learn.greensoftware.foundation/)</small>
+
+## Why is this important?
+
+The International Energy Agency (IEA) says that data centres and data transmission networks accounted for around **1%** of global carbon emissions in 2020.
+
+By comparison, the aviation industry accounted for around 2% of emissions in 2022.
+
+???
+
+- Here's a definition from a Green Software Foundation training course
+- In short: designing and operating software in a more environmentally sustainable way
+- I think it's important because in my experience, we tend not to consider digital devices and services in the same way as plane flights for example.
+- However, I pulled these stats from the IEA who are widely respected on how much data centres actually emit in comparison to the aviation industry
+  - I would also note that I believe this does not include uses like personal phones and laptops
+- Personal anecdote, I think about power usage every time I push my code to Github and CI runs a bunch of tests/checks - is this really worth the energy usage?
+
+---
+
+# Energy & Power Grids
+
+Software runs on electricity, which is generated from a mix of sources across a power grid. Some emit greenhouse gases, some don't.
+
+.img-center.img-75[![Screenshot of the National Grid Live website, showing that 16.5% of power is provided by fossil fuels, 50.6% renewables and 14.6% by other sources](./national-grid-live.png)]
+
+There are no power grids on 100% clean energy, meaning that all software has carbon emissions associated with it. The more energy software consumes, the more carbon it emits.
+
+???
+
+- At the risk of stating the obvious, software runs on electricity
+  - Servers/data centers, and there's some uses you might not think about: development tools like CI, data processing/machine learning training
+  - Networks is another area you might not think about but the internet is made up of lots of computers
+- Here's a screenshot showing the make up of the UK grid on Saturday night. As you can see, although there was a lot of clean wind power, there was still a lot of gas being burned
+
+---
+
+# Energy Efficiency
+
+Since energy usage is a proxy for carbon emissions, the first green software strategy is to write software that is more energy efficient.
+
+- Optimisation
+- Reducing usage where possible
+- Turning unused or unnecessary things off(!)
+
+## [Jevon's Paradox](https://en.wikipedia.org/wiki/Jevons_paradox)
+
+Definition:
+
+> Increases in efficiency lead to decreases to the cost of use, thereby inducing greater demand and ultimately leading to greater energy use.
+
+The paradox can only occur if there is no upper ceiling to usage, so to combat we can consider ways that usage can be capped or slowed down.
+
+???
+
+- Now let's look at some strategies for writing green software
+- As we've just seen, energy usage is a proxy for emissions - so improving energy efficiency is the most obvious path to greener software
+  - This is also good because it nearly always aligns with business practice!
+- To generalise what I mean by efficiency, it's all about doing more with less
+- There's some cross-overs into other specialisms in engineering here: performance engineering & FinOps, since they're all about optimising efficiency (speed and cost respectively)
+- However, it's not always plain sailing - because we have to consider Jevon's Paradox
+  - Example: if we make the data export flow so efficient it can triggered with little cost to us/users, then it is more likely that we run it more often. The emissions of this greater usage may outweigh gains we made through improved efficiency.
+- But as I've noted here at the bottom, since the paradox is tied to usage, one way we can combat this issue is by capping or slowing down usage
+  - This actually crosses over into Product or Design - an effective strategy is to nudge or persuade users that their usage is unnecessary
+
+---
+
+# Carbon awareness
+
+We can compare carbon emissions between energy sources on a grid using carbon intensity, measured as gCO2eq/kWh.
+
+Grids that emit more carbon (i.e. primarily fossil fuel-based power sources) have higher carbon intensity, grids that emit less (i.e. primarily renewables) have lower carbon intensity.
+
+Carbon awareness in green software responds to the current intensity of the grid it the software is connected to, attempting to react such that it runs on a lower carbon intense grid and emissions are lowered.
+
+There are two main strategies:
+
+- Demand shifting
+- Demand shaping
+
+???
+
+- Next is the second green software strategy in our toolbelt
+- We've already seen how power grids are made up of a mix of energy sources, and we carbon intensity to determine how clean a grid is
+  - It is measured as grams of CO2 equivalent per kilowatt hour
+- We want our software to avoid high carbon intensity grids, instead run as much as possible on low intensity grids
+- This is what the carbon awareness strategy is all about
+- We'll now look at these 2 strategies in detail
+
+---
+
+# Carbon awareness (cont.)
+
+## Demand shifting
+
+Attempt to shift computation from a high to low intensity grid, while still maintaining the same (or almost the same) functionality.
+
+- Spatial shifting: moving computation to areas of the world where there is more clean power
+  - Example: moving to a data centre based in Scandinavia, known to powered by mostly renewable energy
+- Temporal shifting: delaying execution of computation to a period time when cleaner power is expected
+  - Example: delaying computation to daylight hours, when more solar power is available
+
+???
+
+- Under demand shifting, we attempt to move computation (in other words our data centre) from high to low intensity grids
+  - This can be done either spatially - by switching to a data center that is connected to a lower intensity grid (either permanently or temporarily, for example by running a specific high-latency job to a cleaner data centre)
+  - Or temporally - by forecasting when intensity is likely to be lower and delaying until then
+
+---
+
+# Carbon awareness (cont.)
+
+## Demand shaping
+
+Nudge users towards using less computation, or run computation under lower intensity conditions.
+
+Some examples:
+
+- "Eco" modes, such as in washing machines, electric vehicles, etc
+- The [Branch Magazine website](https://branch.climateaction.tech/) adapts in response to the user's local carbon intensity
+  - If intensity is high, images aren't loaded at all (instead alt text is shown); if intensity is medium, a lower quality, lower file size image is shown; etc
+
+???
+
+- Demand shaping is more about surfacing greener options to the user - making it another area where Product and Design can contribute - letting the user choose how their computation is run
+  - For Natcap, I would expect that users don't necessarily need their metrics _immediately_, so we could explore ways of deferring processing to lower intensity periods
+
+---
+
+# Hardware efficiency
+
+The processes of manufacturing and disposal of the devices that software runs on also emit carbon.
+
+We call the emissions associated with creation and disposal of the hardware that our software runs on _embodied energy_.
+
+.img-center.img-75[![Bar graph comparing the embodied emissions per year for several end user devices. The y-axis shows kilograms CO2 equivalent per year, and the along the x-axis is desktop computer (showing 132 above the bar), laptop computer (showing 95 above the bar), tablet computer (showing 25 above the bar), smartphone (showing 8 above the bar), printer (showing 28 above the bar) and FTP TV (showing 253 above the bar)](./embodied-emissions.png)]
+
+???
+
+- I'm going to mostly gloss over this one in the interests of time
+- It may actually be the most significant drivers of computing-related emissions
+- However, it is probably the area where Natcap can effect the least change - so I'm going to past quickly
+
+---
+
+# Measurement
+
+Much of what we've just talked about critically depends on measurement. We need to measure what is emitting the most, to prioritise our efforts and not waste time optimising something that doesn't have impact.
+
+## Greenhouse Gas Protocol (GHGP)
+
+Widely used as the measure of company emissions. But since it is a _total_ measure of emissions, it is dependent on other factors (e.g. amount of usage).
+
+Therefore the Green Software Foundation (GSF) felt that it is impractical as a tool for guiding towards greener software.
+
+???
+
+- To be able to optimise the efficiency of our software or make it carbon aware, we first need to be able to measure it
+- There's again a lot of similarity to performance engineering: measure before you do anything
+- Marc's already done a GHGP assessment of Natcap, which is really great
+- But the GSF found that this was not useful in pushing towards greener software
+  - As Marc found, our emissions are reported to be negligible - because Amazon is offsetting them - so we can see this doesn't actually help us determine what aspects of our software are inefficient
+- Therefore they have created an alternative measurement, more specifically aimed at understanding emissions of software
+
+---
+
+# Measurement (cont.)
+
+## Software Carbon Intensity (SCI) standard
+
+The GSF therefore developed the SCI spec, and it has now been approved as an ISO standard.
+
+It is defined as `((E * I) + M) per R`, where:
+
+- `E`: Energy consumed by a software system in kWh
+- `I`: Location-based carbon emissions in gCO2e/kWh
+- `M`: Embodied emissions of a software system in gCO2e
+- `R`: turns the measurement into an intensity instead of a total. It's up to the user to choose, based on what they are attempting to measure
+
+The SCI is an output of the [Impact Framework](https://if.greensoftware.foundation/) tool.
+
+???
+
+- The GSF created the Software Carbon Intensity spec as a more useful tool for measuring software specifically
+- They also worked to have it approved as an ISO standard
+- `E * I` is essentially total carbon emitted based on the power grid that the software is running on
+- `M` is the embodied emissions
+- `R` is probably the hardest bit to wrap your head around, but it is contextual - if your code runs per-request, that is a sensible `R`. But per-user or per-operation is also a sensible `R`
+
+---
+
+class: center, middle
+
+# Thanks!
+
+## Questions?
+
+(Links to further resources on the last slide.)
+
+---
+
+# Further resources
+
+- [Green Software Foundation](https://greensoftware.foundation/)
+  - [Green Software Practitioners course](https://learn.greensoftware.foundation/) (Most of the content of this talk was based on this)
+  - [Environment Variables podcast](https://podcasts.castplus.fm/environment-variables)
+  - [Impact Framework](https://if.greensoftware.foundation/)
+- [Green IO](https://greenio.tech/)
+  - [Green IO podcast](https://podcasts.castplus.fm/greenio)
+- [Green Web Foundation](https://www.thegreenwebfoundation.org/)
+  - [CO2.js](https://www.thegreenwebfoundation.org/co2-js/)
+  - [Branch Magazine](https://branch.climateaction.tech/)
+- Blogs: [Fershad Irani](https://fershad.com/writing/), [Chris Adams](https://rtl.chrisadams.me.uk/)
+- [Building Green Software book](https://www.oreilly.com/library/view/building-green-software/9781098150617/) (Caveat: Haven't read yet)
+- [W3C Sustainable Web Design Community Group](https://www.w3.org/community/sustyweb/)
+
+    </textarea>
+    <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+    <script>
+      var slideshow = remark.create();
+    </script>
+  </body>
+</html>
