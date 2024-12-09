@@ -24,7 +24,8 @@
         --step-3: clamp(1.944rem, 1.771rem + 0.8651vw, 2.4414rem);
         --step-4: clamp(2.3328rem, 2.0827rem + 1.2504vw, 3.0518rem);
         --step-5: clamp(2.7994rem, 2.4462rem + 1.7658vw, 3.8147rem);
-        --clr-primary: goldenrod;
+        --clr-primary: rgb(92, 148, 87);
+        --clr-accent: rgb(80, 146, 170);
       }
       body {
         font-family: "Hanken Grotesk", sans-serif;
@@ -53,6 +54,9 @@
       h4,
       .h4 {
         font-size: var(--step-2);
+      }
+      a {
+        color: var(--clr-accent);
       }
       .remark-slide-content > * + * {
         margin-block-start: var(--flow-space, 1em);
